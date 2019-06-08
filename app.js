@@ -9,7 +9,7 @@
 // Game values
 let min = 1,
     max = 10,
-    winningNum = 2,
+    winningNum = getRandomNum(min, max),
     guessesLeft = 3;
 
 // UI Elements
@@ -24,6 +24,14 @@ const gameUI = document.querySelector('#game'),
 
 minNumUI.textContent = min;
 maxNumUI.textContent = max;
+
+// Play again event listener (need to use parent due to event delegation)
+gameUI.addEventListener('mousedown', function (e) {
+    // console.log(1);
+    if (e.target.className === 'play-again') {
+        window.location.reload();
+    }
+});
 
 // Listen for guess
 
@@ -81,7 +89,17 @@ function gameOver(won, msg) {
     //set text color
     messageUI.style.color = color;
     //let user know they won
-    setMessage(msg)
+    setMessage(msg);
+
+    //play again
+    guessBtnUI.value = 'Play Again';
+    guessBtnUI.className += 'play-again';
+}
+
+// Get winning num function
+function getRandomNum(min, max) {
+    return (Math.floor(Math.random() * (max - min + 1) + min));
+
 }
 
 // Set message function

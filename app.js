@@ -37,16 +37,52 @@ guessBtnUI.addEventListener('click', function () {
     }
     //check if won
     if (guess === winningNum) {
-        //disable input
-        guessInputUI.disabled = true;
-        //change border color
-        guessInputUI.style.borderColor = 'green';
-        //let user know they won
-        setMessage(`${winningNum} is correct!, YOU WON!`, 'green')
+        //game over - won
+        // //disable input
+        // guessInputUI.disabled = true;
+        // //change border color
+        // guessInputUI.style.borderColor = 'green';
+        // //let user know they won
+        // setMessage(`${winningNum} is correct!, YOU WON!`, 'green')
+        gameOver(true, `${winningNum} is correct! YOU WON!`)
     } else {
+        //wrong number
+        guessesLeft -= 1;
+        if (guessesLeft === 0) {
+            //game over - lost
+            //disable input
+            // guessInputUI.disabled = true;
+            // //change border color
+            // guessInputUI.style.borderColor = 'red';
+            // //let user know they won
+            // setMessage(`Game Over, you lost! The correct answer was ${winningNum}.`, 'red')
+            gameOver(false, `Game over, you lost! The correct answer was ${winningNum}.`)
+        } else {
+            // game continues - answer wrong
+            //tell user they were wrong
+            setMessage(`${guess} is not correct, ${guessesLeft} guesses left.`, 'red');
+            //change border color
+            guessInputUI.style.borderColor = 'red'
+            //clear input
+            guessInputUI.value = '';
+        }
 
     }
 })
+
+// Game over function
+function gameOver(won, msg) {
+    let color;
+    won === true ? color = 'green' : color = 'red'
+    //disable input
+    guessInputUI.disabled = true;
+    //change border color
+    guessInputUI.style.borderColor = color;
+    //set text color
+    messageUI.style.color = color;
+    //let user know they won
+    setMessage(msg)
+}
 
 // Set message function
 function setMessage(msg, color) {
